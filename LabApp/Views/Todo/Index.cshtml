@@ -1,0 +1,33 @@
+@model List<TodoItem>
+@{ ViewData["Title"] = "Todo list"; }
+
+<div class="info">
+    <div><b>Web server:</b> @ViewBag.Machine</div>
+    <div><b>Database server:</b> @ViewBag.DbServer</div>
+</div>
+
+<form asp-action="Add" method="post" class="add">
+    <input name="title" placeholder="New task" required maxlength="200" />
+    <button type="submit">Add</button>
+</form>
+
+<table>
+    <tr><th>#</th><th>Task</th><th>Done</th><th>Created (UTC)</th><th></th></tr>
+@foreach (var t in Model)
+{
+    <tr>
+        <td>@t.Id</td>
+        <td class="@(t.Done ? "done" : "")">@t.Title</td>
+        <td>
+            <form asp-action="Toggle" method="post"><input type="hidden" name="id" value="@t.Id" />
+                <button type="submit">@(t.Done ? "Undo" : "Done")</button></form>
+        </td>
+        <td>@t.CreatedUtc.ToString("yyyy-MM-dd HH:mm")</td>
+        <td>
+            <form asp-action="Delete" method="post"><input type="hidden" name="id" value="@t.Id" />
+                <button type="submit" class="del">Delete</button></form>
+        </td>
+    </tr>
+}
+</table>
+@if (!Model.Any()) { <p>No tasks yet. Add one above.</p> }
