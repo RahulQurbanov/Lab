@@ -27,7 +27,7 @@ jobs:
         run: dotnet build LabApp/LabApp.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish LabApp/LabApp.csproj -c Release -o myapp
+        run: dotnet publish LabApp/LabApp.csproj -c Release -r win-x86 --self-contained false -o myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
